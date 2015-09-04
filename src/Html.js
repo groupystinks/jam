@@ -32,12 +32,12 @@ export default class Html extends Component {
 
           <link rel="shortcut icon" href="/favicon.ico" />
 
+          <script type="text/javascript" src="http://cdn.tonejs.org/latest/Tone.min.js"></script>
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: React.renderToString(component)}}/>
           <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} />
-          <script src={webpackStats.script[0]}/>
-          <script type="text/javascript" src="http://cdn.tonejs.org/latest/Tone.min.js"></script>
+          {webpackStats.script.map((src, k) => <script key={k} src={src} />)}
         </body>
       </html>
     );

@@ -24,7 +24,7 @@ module.exports = {
   },
   module: {
     preLoaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' },
+      { test: /\.js$/, exclude: /node_modules|lib/, loader: 'eslint-loader' },
     ],
     loaders: [
       { test: /\.(jpe?g|png|gif|svg)$/, loader: 'url', query: {limit: 10240} },
@@ -36,6 +36,8 @@ module.exports = {
   resolve: {
     modulesDirectories: [
       'src',
+      'views',
+      'components',
       'node_modules'
     ],
     extensions: ['', '.json', '.js']

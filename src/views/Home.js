@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import React, {Component, PropTypes} from 'react';
 import Bass from 'components/Bass';
 import Piano from 'components/Piano';
+import Joints from 'components/Joints';
 
 @connect(
   state => ({
@@ -16,13 +17,6 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    // add Note routes
-    // const sounds = new Map(this.props.sounds);
-    // for (const [key, value] of sounds.entries()) {
-    //   Tone.Note.route(key, (time, note, duration) => {
-    //     value.triggerAttackRelease(note, duration, time);
-    //   });
-    // }
     Tone.Note.parseScore(this.props.scores);
 
     Tone.Transport.loop = true;
@@ -40,17 +34,15 @@ export default class Home extends Component {
     });
   }
 
-
   componentWillUnmount() {
     Tone.Transport.stop();
   }
 
-  _onClickStart = () => {
-    Tone.Transport.start();
-  }
-
-  _onClickEnd = () => {
-    Tone.Transport.stop();
+  _onClick = () => {
+    const state = Tone.Transport.state;
+    if (state === 'started') {
+      Tone.Transport.stop();
+    } else { Tone.Transport.start(); }
   }
 
   render() {
@@ -58,12 +50,10 @@ export default class Home extends Component {
       <div>
         <Bass />
         <Piano />
-        <button onClick={this._onClickStart}>
-          <span>Transport Start</span>
+        <button onClick={this._onClick}>
+          <span>Transport</span>
         </button>
-        <button onClick={this._onClickEnd}>
-          <span>Transport End</span>
-        </button>
+        <Joints />
       </div>
     );
   }

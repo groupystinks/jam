@@ -20,6 +20,7 @@ export default class Piano extends Component {
   }
 
   _onClick = () => {
+    const reverb = new Tone.JCReverb(0.2);
     const pianoScore = {
       'Piano': [
 				['0:0', 'c4', '8n'],
@@ -32,8 +33,8 @@ export default class Piano extends Component {
         ['3:0:3', 'c4', '8n'],
       ]};
     this.props.updateScore(this.props.scores, pianoScore);
-    const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).toMaster();
 
+    const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
     this.props.updateSound(this.props.sounds, {Piano: pianoSound});
   }
 
