@@ -19,7 +19,11 @@ export function updateScore(notes, scores, addedScore) {
   };
 }
 
-export function resetScore() {
+export function resetScore(notes) {
+  notes.map((note) => {
+    Tone.Transport.clearTimeline(note._timelineID);
+    note.value = null;
+  });
   return {
     type: RESET_SCORE,
   };

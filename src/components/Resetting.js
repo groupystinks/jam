@@ -6,35 +6,20 @@ import {resetSound} from 'actions/soundActions';
 
 @connect(
   state => ({
-    scores: state.score.scores,
-    notes: state.score.notes,
+    score: state.score,
   }),
   dispatch => bindActionCreators({resetScore, resetSound}, dispatch),
 )
 export default class Resetting extends Component {
   static propTypes = {
-    notes: PropTypes.array,
-    scores: PropTypes.object,
+    score: PropTypes.object,
     resetScore: PropTypes.func,
     resetSound: PropTypes.func,
   }
 
   _onClick = () => {
-    const cleanUPList = this.props.notes.map((note) => new Promise((resolve, reject) => {
-      if (!Tone.Transport.clearTimeline(note._timelineID)) {
-        reject(false);
-      }
-      note.value = null;
-
-      resolve(true);
-    }));
-
-    Promise.all(cleanUPList)
-    .then(() => {
-      Tone.Transport.dispose();
-      this.props.resetScore();
-      this.props.resetSound();
-    });
+    this.props.resetScore(this.props.score.notes);
+    this.props.resetSound();
   }
 
   /* noteDispose to replace Tonejs's broken dispose */

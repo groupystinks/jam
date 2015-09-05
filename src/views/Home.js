@@ -30,12 +30,14 @@ export default class Home extends Component {
     Tone.Transport.setLoopPoints(0, '4m');
   }
 
-  componentDidUpdate() {
-    Object.keys(this.props.sounds).map((key) => {
-      Tone.Note.route(key, (time, note, duration) => {
-        this.props.sounds[key].triggerAttackRelease(note, duration, time);
+  componentDidUpdate(nextProps) {
+    if (nextProps.scores) {
+      Object.keys(this.props.sounds).map((key) => {
+        Tone.Note.route(key, (time, note, duration) => {
+          this.props.sounds[key].triggerAttackRelease(note, duration, time);
+        });
       });
-    });
+    }
   }
 
   componentWillUnmount() {

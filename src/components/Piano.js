@@ -35,14 +35,23 @@ export default class Piano extends Component {
     this.props.updateScore(this.props.score.notes, this.props.score.scores, pianoScore);
 
     const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
+
+    // setup config
+    pianoSound.set({'volume': -20});
+
     this.props.updateSound(this.props.sounds, {Piano: pianoSound});
   }
 
   render() {
+    const piano = this.props.sounds.Piano;
+    // console.log(piano.volume.value);
     return (
-      <button onClick={this._onClick}>
-        <span>Simple Piano</span>
-      </button>
+      <section>
+        <button onClick={this._onClick}>
+          <span>Simple Piano</span>
+        </button>
+        <span>{piano && piano.get('volume')}</span>
+      </section>
     );
   }
 }
