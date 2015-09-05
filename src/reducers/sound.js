@@ -1,4 +1,5 @@
 import {
+  RESET_SOUND,
   UPDATE_SOUND
 } from '../actions/actionTypes';
 
@@ -12,6 +13,11 @@ export default function update(state = initialState, action = {}) {
     return {
       ...state,
       sounds: action.sound,
+    };
+  case RESET_SOUND:
+    return {
+      ...state,
+      sounds: {},
     };
   default:
     return state;

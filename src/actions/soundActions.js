@@ -1,4 +1,4 @@
-import { UPDATE_SOUND } from './actionTypes';
+import { RESET_SOUND, UPDATE_SOUND } from './actionTypes';
 import Immutable from 'immutable';
 
 export function updateSound(sound, addedSound) {
@@ -8,5 +8,11 @@ export function updateSound(sound, addedSound) {
   return {
     type: UPDATE_SOUND,
     sound: currentSound.toJS(),
+  };
+}
+
+export function resetSound() {
+  return {
+    type: RESET_SOUND,
   };
 }

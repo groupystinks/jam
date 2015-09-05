@@ -1,8 +1,11 @@
+/* global Tone */
 import {connect} from 'react-redux';
 import React, {Component, PropTypes} from 'react';
+import Resetting from 'components/Resetting';
 import Bass from 'components/Bass';
 import Piano from 'components/Piano';
 import Joints from 'components/Joints';
+import PureRender from 'components/PureRender';
 
 @connect(
   state => ({
@@ -10,8 +13,11 @@ import Joints from 'components/Joints';
     scores: state.score.scores,
   }),
 )
+@PureRender
 export default class Home extends Component {
   static propTypes = {
+    updateNote: PropTypes.func,
+    notes: PropTypes.array,
     sounds: PropTypes.object,
     scores: PropTypes.object,
   }
@@ -25,8 +31,6 @@ export default class Home extends Component {
   }
 
   componentDidUpdate() {
-    Tone.Note.parseScore(this.props.scores);
-
     Object.keys(this.props.sounds).map((key) => {
       Tone.Note.route(key, (time, note, duration) => {
         this.props.sounds[key].triggerAttackRelease(note, duration, time);
@@ -48,6 +52,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
+        <Resetting />
         <Bass />
         <Piano />
         <button onClick={this._onClick}>

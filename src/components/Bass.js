@@ -3,17 +3,20 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as scoreActions from 'actions/scoreActions';
 import * as soundActions from 'actions/soundActions';
+import PureRender from 'components/PureRender';
+
 
 @connect(
   state => ({
-    scores: state.score.scores,
+    score: state.score,
     sounds: state.sound.sounds,
   }),
   dispatch => bindActionCreators({...scoreActions, ...soundActions}, dispatch),
 )
+@PureRender
 export default class Bass extends Component {
   static propTypes = {
-    scores: PropTypes.object,
+    score: PropTypes.object,
     updateScore: PropTypes.func,
     sounds: PropTypes.object,
     updateSound: PropTypes.func,
@@ -27,7 +30,7 @@ export default class Bass extends Component {
 				['2:0', 'F2', '4n'],
 				['3:0', 'C2', '2n'],
       ]};
-    this.props.updateScore(this.props.scores, bassScore);
+    this.props.updateScore(this.props.score.notes, this.props.score.scores, bassScore);
     const bassSound = new Tone.MonoSynth({
       'volume': -10,
       'envelope': {

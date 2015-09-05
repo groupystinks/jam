@@ -6,14 +6,14 @@ import * as soundActions from 'actions/soundActions';
 
 @connect(
   state => ({
-    scores: state.score.scores,
+    score: state.score,
     sounds: state.sound.sounds,
   }),
   dispatch => bindActionCreators({...scoreActions, ...soundActions}, dispatch),
 )
 export default class Piano extends Component {
   static propTypes = {
-    scores: PropTypes.object,
+    score: PropTypes.object,
     updateScore: PropTypes.func,
     sounds: PropTypes.object,
     updateSound: PropTypes.func,
@@ -32,7 +32,7 @@ export default class Piano extends Component {
 				['3:0', 'c4', '8n'],
         ['3:0:3', 'c4', '8n'],
       ]};
-    this.props.updateScore(this.props.scores, pianoScore);
+    this.props.updateScore(this.props.score.notes, this.props.score.scores, pianoScore);
 
     const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
     this.props.updateSound(this.props.sounds, {Piano: pianoSound});
