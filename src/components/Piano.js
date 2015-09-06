@@ -1,6 +1,8 @@
+/* global joints1, joints2, joints3, joints4, */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import drawing from 'components/drawing';
 import * as scoreActions from 'actions/scoreActions';
 import * as soundActions from 'actions/soundActions';
 
@@ -19,6 +21,16 @@ export default class Piano extends Component {
     updateSound: PropTypes.func,
   }
 
+  constructor() {
+    super();
+    this.name = 'Piano';
+  }
+
+
+  componentDidUpdate() {
+    drawing(this.props.score, this.name, 50);
+  }
+
   _onClick = () => {
     const reverb = new Tone.JCReverb(0.2);
     const pianoScore = {
@@ -34,17 +46,14 @@ export default class Piano extends Component {
       ]};
     this.props.updateScore(this.props.score.notes, this.props.score.scores, pianoScore);
 
-    const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
-
     // setup config
-    pianoSound.set({'volume': -20});
-
+    const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
+    pianoSound.set({'volume': -10});
     this.props.updateSound(this.props.sounds, {Piano: pianoSound});
   }
 
   render() {
     const piano = this.props.sounds.Piano;
-    // console.log(piano.volume.value);
     return (
       <section>
         <button onClick={this._onClick}>
