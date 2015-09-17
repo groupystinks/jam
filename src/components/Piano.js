@@ -3,6 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import drawing from 'components/drawing';
+import randomAlpha from 'components/randomAlpha';
 import * as scoreActions from 'actions/scoreActions';
 import * as soundActions from 'actions/soundActions';
 
@@ -23,18 +24,18 @@ export default class Piano extends Component {
 
   constructor() {
     super();
-    this.name = 'Piano';
+    this.name = 'Piano-' + randomAlpha();
   }
-
 
   componentDidUpdate() {
     drawing(this.props.score, this.name, 50);
   }
 
   _onClick = () => {
+    const name = this.name;
     const reverb = new Tone.JCReverb(0.2);
-    const pianoScore = {
-      'Piano': [
+    const pianoScore = {};
+    pianoScore[name] = [
 				['0:0', 'c4', '8n'],
         ['0:0:3', 'c4', '8n'],
 				['1:0', 'e4', '8n'],
@@ -43,13 +44,15 @@ export default class Piano extends Component {
         ['2:0:3', 'a4', '8n'],
 				['3:0', 'c4', '8n'],
         ['3:0:3', 'c4', '8n'],
-      ]};
-    this.props.updateScore(this.props.score.notes, this.props.score.scores, pianoScore);
+    ];
+    this.props.updateScore(this.props.score, pianoScore);
 
-    // setup config
-    const pianoSound = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
-    pianoSound.set({'volume': -10});
-    this.props.updateSound(this.props.sounds, {Piano: pianoSound});
+    // setup sound texture
+    const sound = {};
+    const texture = new Tone.PolySynth(6, Tone.SimpleSynth).chain(reverb).toMaster();
+    sound[name] = texture;
+    texture.set({'volume': -10});
+    this.props.updateSound(this.props.sounds, sound);
   }
 
   render() {

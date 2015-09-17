@@ -42,7 +42,7 @@ export default class Home extends Component {
     Tone.Transport.stop();
   }
 
-  _onClick = () => {
+  _onTransportClick = () => {
     const state = Tone.Transport.state;
     if (state === 'started') {
       Tone.Transport.stop();
@@ -55,7 +55,7 @@ export default class Home extends Component {
         <Resetting />
         <Bass />
         <Piano />
-        <button onClick={this._onClick}>
+        <button onClick={this._onTransportClick}>
           <span>Transport</span>
         </button>
         <Joints />

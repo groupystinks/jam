@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import drawing from 'components/drawing';
+import randomAlpha from 'components/randomAlpha';
 import * as scoreActions from 'actions/scoreActions';
 import * as soundActions from 'actions/soundActions';
 import PureRender from 'components/PureRender';
@@ -25,7 +26,7 @@ export default class Bass extends Component {
 
   constructor() {
     super();
-    this.name = 'Bass';
+    this.name = 'Bass-' + randomAlpha();
   }
 
   componentDidUpdate() {
@@ -33,15 +34,18 @@ export default class Bass extends Component {
   }
 
   _onClick = () => {
-    const bassScore = {
-      'Bass': [
+    const name = this.name;
+    const bassScore = {};
+    bassScore[name] = [
 				['0:0', 'c2', '4n'],
 				['1:0', 'a2', '2n'],
 				['2:0', 'f2', '4n'],
 				['3:0', 'c2', '2n'],
-      ]};
-    this.props.updateScore(this.props.score.notes, this.props.score.scores, bassScore);
-    const bassSound = new Tone.MonoSynth({
+    ];
+    this.props.updateScore(this.props.score, bassScore);
+
+    const sound = {};
+    const texture = new Tone.MonoSynth({
       'volume': -10,
       'envelope': {
         'attack': 0.1,
@@ -62,7 +66,8 @@ export default class Bass extends Component {
         'max': 1200,
       },
     }).toMaster();
-    this.props.updateSound(this.props.sounds, {Bass: bassSound});
+    sound[name] = texture;
+    this.props.updateSound(this.props.sounds, sound);
   }
 
   render() {

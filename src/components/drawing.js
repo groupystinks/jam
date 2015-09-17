@@ -6,7 +6,7 @@ export default function drawingNote(score, instrument, baseline = 0) {
     const bar = timeSign.shift() + 1;
 
     // summing up timeSign
-    timeSign.unshift(0); /* always adding one place holding element 0 */
+    timeSign.unshift(0); /* always adding 0, placeholder element  */
     const beatSpotRatio = timeSign.reduce((pre, next, index) => {
       const timeFraction = Math.pow(1 / 4, index);
       return pre + timeFraction * next;
