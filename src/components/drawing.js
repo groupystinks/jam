@@ -1,5 +1,5 @@
-/* global joints1, joints2, joints3, joints4, */
-export default function drawingNote(score, instrument, baseline = 0) {
+/* global nx, joints1, joints2, joints3, joints4, */
+function drawingNote(score, instrument, baseline = 0) {
   const scoreList = score.scores[instrument] || [];
   scoreList.map((sign) => {
     const timeSign = sign[0].split(':').map((strNum) => parseInt(strNum, 10));
@@ -50,3 +50,25 @@ export default function drawingNote(score, instrument, baseline = 0) {
     }
   });
 }
+
+function clearDrawing() {
+  Object.keys(nx.widgets).map((key) => {
+    // extract nexusUI widget name(no tailing number).
+    const nexusWidget = key.replace(/\d+/, '');
+
+    switch (nexusWidget) {
+    case 'joints':
+      nx.widgets[key].joints = [];
+      nx.widgets[key].draw();
+      break;
+
+    default:
+      return false;
+    }
+  });
+}
+
+module.exports = {
+  drawingNote,
+  clearDrawing,
+};

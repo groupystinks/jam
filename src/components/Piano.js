@@ -2,7 +2,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import drawing from 'components/drawing';
+import {drawingNote} from 'components/drawing';
 import randomAlpha from 'components/randomAlpha';
 import * as scoreActions from 'actions/scoreActions';
 import * as soundActions from 'actions/soundActions';
@@ -28,7 +28,7 @@ export default class Piano extends Component {
   }
 
   componentDidUpdate() {
-    drawing(this.props.score, this.name, 50);
+    drawingNote(this.props.score, this.name, 50);
   }
 
   _onClick = () => {
