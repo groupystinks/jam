@@ -1,5 +1,5 @@
 /* global Tone */
-import { RESET_SCORE, UPDATE_SCORE } from './actionTypes';
+import { RESET_SCORE, UPDATE_SCORE, UPDATE_BPM } from './actionTypes';
 import Immutable from 'immutable';
 
 export function updateScore(score, addedScore) {
@@ -27,5 +27,13 @@ export function resetScore(notes) {
   });
   return {
     type: RESET_SCORE,
+  };
+}
+
+export function updateBPM(rate) {
+  Tone.Transport.bpm.value = rate;
+  return {
+    type: UPDATE_BPM,
+    bpm: rate,
   };
 }

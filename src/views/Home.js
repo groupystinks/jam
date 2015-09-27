@@ -1,10 +1,12 @@
 /* global Tone */
 import {connect} from 'react-redux';
 import React, {Component, PropTypes} from 'react';
+import {bindActionCreators} from 'redux';
 import Resetting from 'components/Resetting';
 import Bass from 'components/Bass';
 import Piano from 'components/Piano';
 import Joints from 'components/Joints';
+import * as scoreActions from 'actions/scoreActions';
 import PureRender from 'components/PureRender';
 
 @connect(
@@ -12,10 +14,12 @@ import PureRender from 'components/PureRender';
     sounds: state.sound.sounds,
     scores: state.score.scores,
   }),
+  dispatch => bindActionCreators({...scoreActions}, dispatch),
 )
 @PureRender
 export default class Home extends Component {
   static propTypes = {
+    updateBPM: PropTypes.func.isRequired,
     updateNote: PropTypes.func,
     notes: PropTypes.array,
     sounds: PropTypes.object,
@@ -26,8 +30,13 @@ export default class Home extends Component {
     Tone.Note.parseScore(this.props.scores);
 
     Tone.Transport.loop = true;
+    // set beats per minute
     Tone.Transport.bpm.value = 90;
     Tone.Transport.setLoopPoints(0, '4m');
+
+    Tone.Transport.setInterval((time) => {
+      console.log(time);
+    }, '1m');
   }
 
   componentDidUpdate() {

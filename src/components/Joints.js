@@ -45,13 +45,16 @@ export default class Home extends Component {
     });
   }
 
-
   render() {
     const bars = ['first', 'second', 'third', 'fourth'];
     return (
       <section style={styles.root}>
         {bars.map((bar) =>
-          <canvas data-nx="joints" key={bar} style={styles.canvas}></canvas>
+          <canvas
+            data-nx="joints"
+            key={bar}
+            style={styles.canvas}>
+          </canvas>
         )}
       </section>
     );
