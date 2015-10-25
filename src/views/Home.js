@@ -33,10 +33,6 @@ export default class Home extends Component {
     // set beats per minute
     Tone.Transport.bpm.value = 90;
     Tone.Transport.setLoopPoints(0, '4m');
-
-    Tone.Transport.setInterval((time) => {
-      console.log(time);
-    }, '1m');
   }
 
   componentDidUpdate() {

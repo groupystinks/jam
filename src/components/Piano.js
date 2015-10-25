@@ -2,7 +2,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {drawingNote} from 'components/drawing';
+import {drawingNote} from 'components/jointsUtil';
 import randomAlpha from 'components/randomAlpha';
 import * as scoreActions from 'actions/scoreActions';
 import * as soundActions from 'actions/soundActions';

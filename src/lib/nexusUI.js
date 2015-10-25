@@ -1,8 +1,10 @@
+/*eslint-disable */
 /*
  * nexusUI
  * by Ben Taylor
  * https://github.com/lsu-emdm/nexusUI
 */
+
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var manager = require('./lib/core/manager');
@@ -2654,11 +2656,11 @@ joints.prototype.move = function() {
 }
 
 
-joints.prototype.release = function() {
-		this.anix = this.deltaMove.x/this.width;
-		this.aniy = (this.deltaMove.y)/this.height;
+// joints.prototype.release = function() {
+// 		this.anix = this.deltaMove.x/this.width;
+// 		this.aniy = (this.deltaMove.y)/this.height;
 
-}
+// }
 
 /** @method animate
 	Add simple physics to the widget
@@ -2692,8 +2694,12 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-joints.prototype.play = function() {
+joints.prototype.tempo = 0.001;
 
+joints.prototype.conductorGo = function() {
+  this.val.x += (this.tempo);
+  this.draw();
+  this.transmit(this.val);
 }
 
 },{"../core/widget":3,"../utils/math":6,"util":44}],19:[function(require,module,exports){

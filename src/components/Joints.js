@@ -4,6 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Colors from './ColorMe';
 import PureRender from 'components/PureRender';
+import {registerConductor} from 'components/jointsUtil';
 
 
 const styles = {
@@ -23,15 +24,24 @@ const styles = {
 )
 @Radium
 @PureRender
-export default class Home extends Component {
+export default class Joints extends Component {
   static propTypes = {
     scores: PropTypes.object,
+  }
+
+  constructor() {
+    super();
+    this.conductor = '';
   }
 
   componentDidMount() {
     require('lib/nexusUI');
     window.onload();
     nx.onload = this._nxOnload();
+    this.conductor = 'joints1';
+    Tone.Transport.setInterval(() => {
+      this.conductor = registerConductor(this.conductor);
+    }, '1m');
   }
 
   _nxOnload = () => {
