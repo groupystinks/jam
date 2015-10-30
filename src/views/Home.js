@@ -51,6 +51,7 @@ export default class Home extends Component {
     const state = Tone.Transport.state;
     if (state === 'started') {
       Tone.Transport.stop();
+      nx.aniItems = [];
     } else { Tone.Transport.start(); }
   }
 

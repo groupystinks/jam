@@ -38,9 +38,17 @@ export default class Joints extends Component {
     require('lib/nexusUI');
     window.onload();
     nx.onload = this._nxOnload();
-    this.conductor = 'joints1';
+    let bar = 0;
     Tone.Transport.setInterval(() => {
-      this.conductor = registerConductor(this.conductor);
+      if (bar >= 4) { bar = 0; }
+      if (this.conductor) {
+        const _this = nx.widgets[this.conductor];
+        _this.val.x = 0;
+        _this.draw();
+      }
+      bar += 1; /* borderline of old & new conductor */
+      this.conductor = 'joints' + bar;
+      registerConductor(this.conductor);
     }, '1m');
   }
 

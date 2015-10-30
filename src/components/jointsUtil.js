@@ -69,11 +69,8 @@ function clearDrawing() {
 
 function registerConductor(conductor) {
   const _this = nx.widgets[conductor];
+  nx.aniItems = [];
   nx.aniItems.push(_this.conductorGo.bind(_this));
-  // nx.aniItems.push(joints2.conductorGo.bind(joints2));
-  // nx.aniItems.push(joints3.conductorGo.bind(joints3));
-  // nx.aniItems.push(joints4.conductorGo.bind(joints4));
-  return 'joints2';
 }
 
 module.exports = {

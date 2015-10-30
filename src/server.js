@@ -15,7 +15,7 @@ import PrettyError from 'pretty-error';
 const pretty = new PrettyError();
 const app = new Express();
 const proxy = httpProxy.createProxyServer({
-  target: 'http://localhost:' + config.apiPort
+  target: 'http://localhost:' + config.apiPort,
 });
 
 app.use(compression());

@@ -2694,7 +2694,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-joints.prototype.tempo = 0.001;
+joints.prototype.tempo = 0.005;
 
 joints.prototype.conductorGo = function() {
   this.val.x += (this.tempo);
