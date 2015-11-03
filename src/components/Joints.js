@@ -1,4 +1,4 @@
-/* global nx, joints1 */
+/* global nx, joints1, TONE */
 import {connect} from 'react-redux';
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
@@ -32,24 +32,16 @@ export default class Joints extends Component {
   constructor() {
     super();
     this.conductor = '';
+    // this.loopID = ;
   }
 
   componentDidMount() {
     require('lib/nexusUI');
     window.onload();
     nx.onload = this._nxOnload();
-    let bar = 0;
-    Tone.Transport.setInterval(() => {
-      if (bar >= 4) { bar = 0; }
-      if (this.conductor) {
-        const _this = nx.widgets[this.conductor];
-        _this.val.x = 0;
-        _this.draw();
-      }
-      bar += 1; /* borderline of old & new conductor */
-      this.conductor = 'joints' + bar;
-      registerConductor(this.conductor);
-    }, '1m');
+
+    /* register nexus joints for Tonejs loop */
+    this._loop();
   }
 
   _nxOnload = () => {
@@ -61,6 +53,22 @@ export default class Joints extends Component {
       instance.init();
       instance.draw();
     });
+  }
+
+  _loop = () => {
+    let bar = 0;
+    const loopID = Tone.Transport.setInterval(() => {
+      if (bar >= 4) { bar = 0; }
+      if (this.conductor) {
+        const _this = nx.widgets[this.conductor];
+        _this.val.x = 0;
+        _this.draw();
+      }
+      bar += 1; /* borderline of old & new conductor */
+      this.conductor = 'joints' + bar;
+      registerConductor(this.conductor);
+    }, '1m');
+    return loopID;
   }
 
   render() {
