@@ -1,11 +1,12 @@
 /* global nx, joints1, TONE */
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Colors from './ColorMe';
 import PureRender from 'components/PureRender';
+import * as loopActions from 'actions/loopActions';
 import {registerConductor} from 'components/jointsUtil';
-
 
 const styles = {
   root: {
@@ -20,19 +21,22 @@ const styles = {
 @connect(
   state => ({
     scores: state.score.scores,
+    loopID: state.loop.loopID,
   }),
+  dispatch => bindActionCreators({...loopActions}, dispatch),
 )
 @Radium
 @PureRender
 export default class Joints extends Component {
   static propTypes = {
     scores: PropTypes.object,
+    loopID: PropTypes.array,
+    updateLoopID: PropTypes.func,
   }
 
   constructor() {
     super();
     this.conductor = '';
-    // this.loopID = ;
   }
 
   componentDidMount() {
@@ -41,7 +45,10 @@ export default class Joints extends Component {
     nx.onload = this._nxOnload();
 
     /* register nexus joints for Tonejs loop */
-    this._loop();
+    // const id = this._loop();
+    // this.props.initiateLoop(this.props.loopID, id);
+    const id = this._loop();
+    this.props.updateLoopID(this.props.loopID, id);
   }
 
   _nxOnload = () => {
@@ -57,7 +64,7 @@ export default class Joints extends Component {
 
   _loop = () => {
     let bar = 0;
-    const loopID = Tone.Transport.setInterval(() => {
+    return Tone.Transport.setInterval(() => {
       if (bar >= 4) { bar = 0; }
       if (this.conductor) {
         const _this = nx.widgets[this.conductor];
@@ -68,7 +75,6 @@ export default class Joints extends Component {
       this.conductor = 'joints' + bar;
       registerConductor(this.conductor);
     }, '1m');
-    return loopID;
   }
 
   render() {

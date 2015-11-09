@@ -7,21 +7,23 @@ import Bass from 'components/Bass';
 import Piano from 'components/Piano';
 import Joints from 'components/Joints';
 import * as scoreActions from 'actions/scoreActions';
+import * as loopActions from 'actions/loopActions';
 import PureRender from 'components/PureRender';
 
 @connect(
   state => ({
+    loopID: state.loop.loopID,
     sounds: state.sound.sounds,
     scores: state.score.scores,
   }),
-  dispatch => bindActionCreators({...scoreActions}, dispatch),
+  dispatch => bindActionCreators({...scoreActions, ...loopActions}, dispatch),
 )
 @PureRender
 export default class Home extends Component {
   static propTypes = {
-    updateBPM: PropTypes.func.isRequired,
-    updateNote: PropTypes.func,
     notes: PropTypes.array,
+    initiateLoop: PropTypes.func,
+    resetLoop: PropTypes.func,
     sounds: PropTypes.object,
     scores: PropTypes.object,
   }
@@ -44,15 +46,18 @@ export default class Home extends Component {
   }
 
   componentWillUnmount() {
+    this.props.resetLoop(this.props.loopID);
     Tone.Transport.stop();
   }
 
   _onTransportClick = () => {
     const state = Tone.Transport.state;
     if (state === 'started') {
+      this.props.resetLoop(this.props.loopID);
       Tone.Transport.stop();
-      nx.aniItems = [];
-    } else { Tone.Transport.start(); }
+    } else {
+      Tone.Transport.start();
+    }
   }
 
   render() {
