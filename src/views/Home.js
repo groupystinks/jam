@@ -9,6 +9,7 @@ import Joints from 'components/Joints';
 import * as scoreActions from 'actions/scoreActions';
 import * as loopActions from 'actions/loopActions';
 import PureRender from 'components/PureRender';
+import {loop} from 'components/jointsUtil';
 
 @connect(
   state => ({
@@ -56,6 +57,7 @@ export default class Home extends Component {
       this.props.resetLoop(this.props.loopID);
       Tone.Transport.stop();
     } else {
+      this.props.initiateLoop(this.props.loopID, loop);
       Tone.Transport.start();
     }
   }

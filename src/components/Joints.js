@@ -6,7 +6,7 @@ import Radium from 'radium';
 import Colors from './ColorMe';
 import PureRender from 'components/PureRender';
 import * as loopActions from 'actions/loopActions';
-import {registerConductor} from 'components/jointsUtil';
+import {loop} from 'components/jointsUtil';
 
 const styles = {
   root: {
@@ -31,7 +31,7 @@ export default class Joints extends Component {
   static propTypes = {
     scores: PropTypes.object,
     loopID: PropTypes.array,
-    updateLoopID: PropTypes.func,
+    initiateLoop: PropTypes.func,
   }
 
   constructor() {
@@ -44,11 +44,7 @@ export default class Joints extends Component {
     window.onload();
     nx.onload = this._nxOnload();
 
-    /* register nexus joints for Tonejs loop */
-    // const id = this._loop();
-    // this.props.initiateLoop(this.props.loopID, id);
-    const id = this._loop();
-    this.props.updateLoopID(this.props.loopID, id);
+    this.props.initiateLoop(this.props.loopID, loop);
   }
 
   _nxOnload = () => {
@@ -60,21 +56,6 @@ export default class Joints extends Component {
       instance.init();
       instance.draw();
     });
-  }
-
-  _loop = () => {
-    let bar = 0;
-    return Tone.Transport.setInterval(() => {
-      if (bar >= 4) { bar = 0; }
-      if (this.conductor) {
-        const _this = nx.widgets[this.conductor];
-        _this.val.x = 0;
-        _this.draw();
-      }
-      bar += 1; /* borderline of old & new conductor */
-      this.conductor = 'joints' + bar;
-      registerConductor(this.conductor);
-    }, '1m');
   }
 
   render() {

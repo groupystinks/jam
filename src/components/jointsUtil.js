@@ -73,8 +73,25 @@ function registerConductor(conductor) {
   nx.aniItems.push(_this.conductorGo.bind(_this));
 }
 
+function loop() {
+  let bar = 0;
+  let conductor;
+  return Tone.Transport.setInterval(() => {
+    if (bar >= 4) { bar = 0; }
+    if (conductor) {
+      const _this = nx.widgets[conductor];
+      _this.val.x = 0;
+      _this.draw();
+    }
+    bar += 1; /* borderline of old & new conductor */
+    conductor = 'joints' + bar;
+    registerConductor(conductor);
+  }, '1m');
+}
+
 module.exports = {
   drawingNote,
   clearDrawing,
   registerConductor,
+  loop,
 };

@@ -1,4 +1,4 @@
-import {RESET_LOOP, UPDATE_LOOP_ID} from './actionTypes';
+import {RESET_LOOP, UPDATE_LOOP_ID, INITIATE_LOOP} from './actionTypes';
 
 export function resetLoop(existedID) {
   nx.aniItems = [];
@@ -16,10 +16,11 @@ export function updateLoopID(existedID, id) {
   };
 }
 
-// export function initiateLoop(existedID, id) {
-//   const newIDs = existedID.push(id);
-//   return {
-//     type: INITIATE_LOOP,
-//     loopID: newIDs,
-//   };
-// }
+export function initiateLoop(existedID, loop) {
+  const id = loop();
+  existedID.push(id);
+  return {
+    type: INITIATE_LOOP,
+    loopID: existedID,
+  };
+}
